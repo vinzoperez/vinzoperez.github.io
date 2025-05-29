@@ -1,53 +1,133 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { FaRoblox, FaEnvelope } from "react-icons/fa";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bochardi.com | Vinzorelli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #4f46e5, #9333ea, #ec4899);
+      color: white;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+    header p {
+      font-size: 1.25rem;
+      margin: 0.5rem 0;
+    }
+    section.about, section.courses {
+      background: white;
+      color: black;
+      max-width: 800px;
+      margin: 2rem auto;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    section.about blockquote {
+      margin-top: 1.5rem;
+      font-style: italic;
+      color: #7e22ce;
+      text-align: center;
+    }
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .course-card {
+      background: white;
+      color: black;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .course-card h2 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .course-card p {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+    .course-card button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #9333ea;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .course-card button:hover {
+      background-color: #7e22ce;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 0.875rem;
+    }
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bochardi.com</h1>
+    <p>By Vinzorelli</p>
+    <p>Master the Roblox universe with expert-led courses and resources.</p>
+  </header>
 
-export default function Portfolio() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-600 to-pink-500 text-white p-8">
-      <header className="text-center py-10">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl font-extrabold tracking-wide mb-2"
-        >
-          Bochardi.com
-        </motion.h1>
-        <p className="text-xl font-light">By Vinzorelli</p>
-        <p className="mt-2 text-lg">Master the Roblox universe with expert-led courses and resources.</p>
-      </header>
+  <section class="about">
+    <h2>About Me</h2>
+    <p>Hi, I’m Vinzo! I’m currently a Freshman at a Community College, pursuing a major in Computer Science. I’ve always had a deep passion for technology, which has naturally led me to explore different facets of programming, game development, and web development.</p>
+    <p>I’ve been fascinated by computers and coding ever since I was young. The experience of playing games captivated me early on, and it wasn’t long before I wanted to go beyond just playing—I started modding games, which led me to dive into coding. I began learning how to develop games on platforms like Roblox and Unity, and this hands-on experience gave my heart a good feeling for creating and building.</p>
+    <p>My journey into coding started with Roblox. I began by developing simple games, but as I worked on a game my brother requested, I wrote my own code to bring it to life. That project marked a turning point for me, guiding me toward a deeper interest in Information Technology and computer science as a whole. From there, I’ve expanded my skills and knowledge in various areas like game development, web development, and problem-solving in programming.</p>
+    <p>Although I don’t consider myself an expert yet, I am comfortable with my skills as an intermediate programmer and have a strong foundation in IT. I continue to learn and grow with each project I take on, and I’m always excited to explore new areas of technology.</p>
+    <p>In my free time, I enjoy building websites, creating small games, and engaging in coding projects. I’m always curious and ready to experiment with new technologies or dive into learning something new.</p>
+    <p>As I continue my studies and career path, I hope to expand my skill set, gain practical experience, and eventually contribute to larger software projects. I believe curiosity is one of the greatest secrets of happiness, and I’ll continue to let that drive me as I move forward in the world of technology.</p>
+    <blockquote>"Curiosity is one of the great secrets of happiness." - Vinzo<br><span style="font-size:0.8rem">3-18-2025</span></blockquote>
+  </section>
 
-      <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-        {[1, 2, 3].map((course, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-          >
-            <Card className="bg-white text-black shadow-xl rounded-2xl overflow-hidden">
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-2">Roblox Course #{course}</h2>
-                <p className="mb-4 text-sm text-gray-700">An in-depth guide to building, scripting, and monetizing on Roblox.</p>
-                <Button className="bg-purple-600 text-white hover:bg-purple-700 w-full">View Course</Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </section>
-
-      <footer className="text-center mt-16">
-        <p className="text-sm">Contact me at <a href="mailto:vinzorelli@bochardi.com" className="underline">vinzorelli@bochardi.com</a></p>
-        <div className="flex justify-center gap-4 mt-4">
-          <a href="#" className="text-2xl"><FaRoblox /></a>
-          <a href="mailto:vinzorelli@bochardi.com" className="text-2xl"><FaEnvelope /></a>
-        </div>
-        <p className="mt-4 text-xs">&copy; 2025 Bochardi.com. All rights reserved.</p>
-      </footer>
+  <section class="courses">
+    <h2 style="text-align:center; font-size: 2rem; font-weight: bold;">Courses</h2>
+    <div class="course-grid">
+      <div class="course-card">
+        <h2>Roblox Course #1</h2>
+        <p>An in-depth guide to building, scripting, and monetizing on Roblox.</p>
+        <button>View Course</button>
+      </div>
+      <div class="course-card">
+        <h2>Roblox Course #2</h2>
+        <p>An in-depth guide to building, scripting, and monetizing on Roblox.</p>
+        <button>View Course</button>
+      </div>
+      <div class="course-card">
+        <h2>Roblox Course #3</h2>
+        <p>An in-depth guide to building, scripting, and monetizing on Roblox.</p>
+        <button>View Course</button>
+      </div>
     </div>
-  );
-}
+  </section>
+
+  <footer>
+    <p>Contact me at <a href="mailto:vinzorelli@bochardi.com">vinzorelli@bochardi.com</a></p>
+    <p style="margin-top: 0.5rem">&copy; 2025 Bochardi.com. All rights reserved.</p>
+  </footer>
+</body>
+</html>
