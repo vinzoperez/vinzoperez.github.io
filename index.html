@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bochardi.com | Vinzorelli</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #4f46e5, #9333ea, #ec4899);
-      color: white;
+      font-family: 'Fredoka One', cursive;
+      background: linear-gradient(to bottom right, #fde68a, #fcd34d, #fbbf24);
+      color: #1f2937;
       padding: 2rem;
     }
     header {
@@ -18,26 +18,29 @@
       padding: 2rem 0;
     }
     header h1 {
-      font-size: 3rem;
-      font-weight: 800;
+      font-size: 4rem;
+      color: #ef4444;
+      text-shadow: 2px 2px #fff;
     }
     header p {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       margin: 0.5rem 0;
+      color: #1d4ed8;
     }
     section.about, section.courses {
-      background: white;
-      color: black;
+      background: #fff;
+      color: #1f2937;
       max-width: 800px;
       margin: 2rem auto;
-      border-radius: 1rem;
+      border-radius: 1.5rem;
       padding: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      border: 4px dashed #f59e0b;
     }
     section.about blockquote {
       margin-top: 1.5rem;
       font-style: italic;
-      color: #7e22ce;
+      color: #10b981;
       text-align: center;
     }
     .course-grid {
@@ -47,41 +50,46 @@
       margin-top: 2rem;
     }
     .course-card {
-      background: white;
-      color: black;
+      background: #fef3c7;
+      border: 4px solid #fbbf24;
       border-radius: 1rem;
       padding: 1.5rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
     }
     .course-card h2 {
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 1.5rem;
+      color: #be185d;
     }
     .course-card p {
-      font-size: 0.9rem;
-      color: #4b5563;
+      font-size: 1rem;
+      color: #374151;
     }
     .course-card button {
       margin-top: 1rem;
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.75rem;
       border: none;
-      border-radius: 0.5rem;
-      background-color: #9333ea;
+      border-radius: 0.75rem;
+      background-color: #10b981;
       color: white;
       font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
     }
     .course-card button:hover {
-      background-color: #7e22ce;
+      background-color: #059669;
+      transform: scale(1.05);
     }
     footer {
       text-align: center;
       margin-top: 4rem;
-      font-size: 0.875rem;
+      font-size: 1rem;
+      color: #111827;
     }
     footer a {
-      color: white;
+      color: #ef4444;
       text-decoration: underline;
     }
   </style>
@@ -105,7 +113,7 @@
   </section>
 
   <section class="courses">
-    <h2 style="text-align:center; font-size: 2rem; font-weight: bold;">Courses</h2>
+    <h2 style="text-align:center; font-size: 2.5rem; color: #ef4444;">Courses</h2>
     <div class="course-grid">
       <div class="course-card">
         <h2>Roblox Course #1</h2>
@@ -114,12 +122,12 @@
       </div>
       <div class="course-card">
         <h2>Roblox Course #2</h2>
-        <p>An in-depth guide to building, scripting, and monetizing on Roblox.</p>
+        <p>Learn Roblox game mechanics, UI design, and publish your first game!</p>
         <button>View Course</button>
       </div>
       <div class="course-card">
         <h2>Roblox Course #3</h2>
-        <p>An in-depth guide to building, scripting, and monetizing on Roblox.</p>
+        <p>Advanced scripting and optimization tips for serious Roblox developers.</p>
         <button>View Course</button>
       </div>
     </div>
