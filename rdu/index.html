@@ -1,1 +1,135 @@
-<h1>Hi</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bochardi.com | RDU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0; 
+      font-family: 'Fredoka One', cursive;
+      background: linear-gradient(to top, #171846 40%, #26236b 70%); 
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #1f2937;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    header h1 {
+      font-size: 4rem;
+      color: #ef4444;
+      text-shadow: 2px 2px #fff;
+    }
+    header p {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+      color: #ffffff;
+    }
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+    }
+    nav a {
+      color: #ffffff;
+      font-size: 1rem;
+      background: #ef4444;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: #dc2626;
+    }
+    .courses {
+      background: #fff;
+      max-width: 800px;
+      margin: 2rem auto;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      border: 4px dashed #f59e0b;
+    }
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .course-card {
+      background: #fef3c7;
+      border: 4px solid #fbbf24;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    .course-card h2 {
+      font-size: 1.5rem;
+      color: #be185d;
+    }
+    .course-card p {
+      font-size: 1rem;
+      color: #374151;
+    }
+    .course-card button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 0.75rem;
+      background-color: #10b981;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .course-card button:hover {
+      background-color: #059669;
+      transform: scale(1.05);
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+    footer a {
+      color: #ef4444;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">About Me</a>
+  </nav>
+  <header>
+    <h1>Roblox Developer University</h1>
+    <p>Learn Roblox game development with curated lessons and a full YouTube playlist!</p>
+  </header>
+
+  <section class="courses">
+    <h2 style="text-align:center; font-size: 2.5rem; color: #ef4444;">Courses</h2>
+    <div class="course-grid">
+        <div class="course-card">
+            <h2>RDU YouTube Playlist</h2>
+            <p>Master the basics and beyond with structured videos for developers at any level.</p>
+            <button onclick="window.open('https://www.youtube.com/playlist?list=PLvFf2NDVGfN-2vbgSZP8BsrppIgRfc7Qs', '_blank')">View Playlist</button>
+        </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Contact me at <a href="mailto:bochardi@gmail.com">vinzorelli@bochardi.com</a></p>
+    <p style="margin-top: 0.5rem">&copy; 2025 Bochardi.com. All rights reserved.</p>
+  </footer>
+</body>
+</html>
