@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bochardi.com | Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Fredoka One', cursive;
+      background: linear-gradient(to top, #dbeafe 40%, #bfdbfe 70%);
+      background-attachment: fixed;
+      color: #1e3a8a;
+      padding: 2rem;
+    }
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+    }
+    nav a {
+      color: #1e3a8a;
+      font-size: 1rem;
+      background: #93c5fd;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: #60a5fa;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    header h1 {
+      font-size: 3.5rem;
+      color: #2563eb;
+      text-shadow: 2px 2px #fff;
+    }
+    header p {
+      font-size: 1.25rem;
+      color: #1e40af;
+    }
+    .projects {
+      background: #f0f9ff;
+      max-width: 1000px;
+      margin: 2rem auto;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      border: 4px dashed #60a5fa;
+    }
+    .projects h2 {
+      text-align: center;
+      color: #1e3a8a;
+      font-size: 2.25rem;
+    }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .project-card {
+      background: #e0f2fe;
+      border: 3px solid #93c5fd;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .project-card h3 {
+      font-size: 1.5rem;
+      color: #2563eb;
+    }
+    .project-card p {
+      font-size: 1rem;
+      color: #1e40af;
+    }
+    .project-card a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #3b82f6;
+      color: #ffffff;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .project-card a:hover {
+      background: #1d4ed8;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 1rem;
+      color: #1e3a8a;
+    }
+    footer a {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Back to About</a>
+    <a href="/rdu">RDU</a>
+    <a href="/minecraft">Minecraft</a>
+  </nav>
+
+  <header>
+    <h1>My Projects</h1>
+    <p>A growing list of what I’ve built, coded, or helped create.</p>
+  </header>
+
+  <section class="projects">
+    <h2>Featured Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>Personal Portfolio</h3>
+        <p>The site you're on now! Built using HTML, CSS, and deployed with a custom domain.</p>
+        <a href="/">View Site</a>
+      </div>
+      <div class="project-card">
+        <h3>RDU Platform</h3>
+        <p>Learning hub for Roblox developers with a curated YouTube playlist and course-like structure.</p>
+        <a href="/rdu/">Visit RDU</a>
+      </div>
+      <div class="project-card">
+        <h3>Minecraft SMP Server</h3>
+        <p>24/7 Minecraft survival server hosted and managed by me. DNS, plugins, and backups handled personally.</p>
+        <a href="/minecraft/">Visit Server Page</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Email <a href="mailto:vinzorelli@bochardi.com">vinzorelli@bochardi.com</a></p>
+    <p style="margin-top: 0.5rem">&copy; 2025 Bochardi.com. All rights reserved.</p>
+  </footer>
+</body>
+</html>
