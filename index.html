@@ -62,24 +62,23 @@ body::before {
   position: fixed;
   bottom: 0;
   width: 100%;
+  overflow: hidden;
+  line-height: 0;
   z-index: 0;
 }
 
-.wave {
-  animation: waveMove 10s linear infinite;
+.wave-track {
+  display: flex;
+  width: 200%;
+  animation: waveScroll 18s linear infinite;
 }
 
-.wave:nth-child(2) {
-  animation-duration: 15s;
+.wave-track.slow {
+  animation-duration: 28s;
   opacity: 0.6;
 }
 
-.wave:nth-child(3) {
-  animation-duration: 20s;
-  opacity: 0.4;
-}
-
-@keyframes waveMove {
+@keyframes waveScroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
@@ -241,15 +240,39 @@ footer a:hover {
 
 <!-- Waves -->
 <div class="wave-container">
-<svg class="wave" viewBox="0 0 1440 320">
-<path fill="#065f46" fill-opacity="1"
-d="M0,160L48,154.7C96,149,192,139,288,160C384,181,480,235,576,245.3C672,256,768,224,864,197.3C960,171,1056,149,1152,144C1248,139,1344,149,1392,154.7L1440,160V320H0Z"></path>
-</svg>
 
-<svg class="wave" viewBox="0 0 1440 320">
-<path fill="#064e3b" fill-opacity="1"
-d="M0,192L60,186.7C120,181,240,171,360,160C480,149,600,139,720,154.7C840,171,960,213,1080,224C1200,235,1320,213,1380,202.7L1440,192V320H0Z"></path>
-</svg>
+  <!-- First Wave -->
+  <div class="wave-track">
+    <svg viewBox="0 0 1440 320">
+      <path fill="#065f46"
+        d="M0,160L48,154.7C96,149,192,139,288,160C384,181,480,235,576,245.3C672,256,768,224,864,197.3C960,171,1056,149,1152,144C1248,139,1344,149,1392,154.7L1440,160V320H0Z">
+      </path>
+    </svg>
+
+    <!-- Duplicate for seamless loop -->
+    <svg viewBox="0 0 1440 320">
+      <path fill="#065f46"
+        d="M0,160L48,154.7C96,149,192,139,288,160C384,181,480,235,576,245.3C672,256,768,224,864,197.3C960,171,1056,149,1152,144C1248,139,1344,149,1392,154.7L1440,160V320H0Z">
+      </path>
+    </svg>
+  </div>
+
+  <!-- Second Slower Wave -->
+  <div class="wave-track slow">
+    <svg viewBox="0 0 1440 320">
+      <path fill="#064e3b"
+        d="M0,192L60,186.7C120,181,240,171,360,160C480,149,600,139,720,154.7C840,171,960,213,1080,224C1200,235,1320,213,1380,202.7L1440,192V320H0Z">
+      </path>
+    </svg>
+
+    <!-- Duplicate -->
+    <svg viewBox="0 0 1440 320">
+      <path fill="#064e3b"
+        d="M0,192L60,186.7C120,181,240,171,360,160C480,149,600,139,720,154.7C840,171,960,213,1080,224C1200,235,1320,213,1380,202.7L1440,192V320H0Z">
+      </path>
+    </svg>
+  </div>
+
 </div>
 
 <footer>
