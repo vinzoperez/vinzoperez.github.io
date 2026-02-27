@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vinzo | Developer Portfolio</title>
 
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --accent: #ef4444;
+  --accent: #22c55e;
+  --accent-dark: #16a34a;
   --glass: rgba(255, 255, 255, 0.08);
-  --blur: blur(16px);
+  --blur: blur(20px);
 }
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -24,11 +25,12 @@
 body {
   font-family: 'Outfit', sans-serif;
   color: white;
-  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0f172a);
+  background: linear-gradient(-45deg, #052e16, #064e3b, #065f46, #022c22);
   background-size: 400% 400%;
-  animation: gradientFlow 15s ease infinite;
+  animation: gradientFlow 18s ease infinite;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
 }
 
 /* Animated Gradient */
@@ -36,6 +38,50 @@ body {
   0% {background-position: 0% 50%;}
   50% {background-position: 100% 50%;}
   100% {background-position: 0% 50%;}
+}
+
+/* Floating particles */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(circle, rgba(34,197,94,0.15) 2px, transparent 2px);
+  background-size: 60px 60px;
+  animation: floatParticles 40s linear infinite;
+  z-index: 0;
+}
+
+@keyframes floatParticles {
+  from { transform: translateY(0); }
+  to { transform: translateY(-200px); }
+}
+
+/* Waves */
+.wave-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.wave {
+  animation: waveMove 10s linear infinite;
+}
+
+.wave:nth-child(2) {
+  animation-duration: 15s;
+  opacity: 0.6;
+}
+
+.wave:nth-child(3) {
+  animation-duration: 20s;
+  opacity: 0.4;
+}
+
+@keyframes waveMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* Navbar */
@@ -57,7 +103,7 @@ nav a {
   text-decoration: none;
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   transition: all 0.3s ease;
   font-weight: 500;
 }
@@ -65,26 +111,29 @@ nav a {
 nav a:hover {
   background: var(--accent);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 20px rgba(34,197,94,0.7);
 }
 
-/* Hero Section */
+/* Hero */
 header {
   text-align: center;
   padding: 8rem 2rem 4rem;
+  position: relative;
+  z-index: 2;
 }
 
 header h1 {
   font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 700;
-  background: linear-gradient(to right, #4b5320, #929a68);
+  background: linear-gradient(to right, #bbf7d0, #22c55e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(34,197,94,0.5);
 }
 
 header p {
   font-size: 1.3rem;
-  opacity: 0.8;
+  opacity: 0.9;
   margin-top: 0.5rem;
 }
 
@@ -97,20 +146,28 @@ section.about {
   backdrop-filter: var(--blur);
   border-radius: 24px;
   border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-  animation: fadeIn 1.5s ease forwards;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  animation: fadeUp 1.5s ease forwards;
+  position: relative;
+  z-index: 2;
+}
+
+section.about:hover {
+  box-shadow: 0 30px 60px rgba(34,197,94,0.3);
+  transform: translateY(-5px);
+  transition: 0.4s ease;
 }
 
 section.about h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #f59e0b;
+  color: #86efac;
 }
 
 section.about p {
   margin-bottom: 1.2rem;
   line-height: 1.8;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.9);
 }
 
 /* Quote */
@@ -119,14 +176,14 @@ blockquote {
   padding: 1.5rem;
   border-left: 4px solid var(--accent);
   font-style: italic;
-  background: rgba(255,255,255,0.05);
+  background: rgba(34,197,94,0.08);
   border-radius: 12px;
-  color: #fca5a5;
+  color: #bbf7d0;
 }
 
-/* Fade animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -136,6 +193,8 @@ footer {
   padding: 3rem 2rem;
   opacity: 0.7;
   font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
 }
 
 footer a {
@@ -162,7 +221,6 @@ footer a:hover {
 
 <body>
 
-
 <header>
   <h1>Vinzo</h1>
   <p>Computer Science Student • Developer</p>
@@ -170,22 +228,29 @@ footer a:hover {
 
 <section class="about">
   <h2>About Me</h2>
-
-  <p>Hi, I’m Vinzo a Computer Science sophomore with a strong passion for technology, programming, and building digital experiences.</p>
-
-  <p>My journey began with gaming. What started as playing games quickly turned into modding them, and eventually developing my own. Platforms like Roblox and Unity sparked my love for problem-solving and creative building video games for others to enjoy.</p>
-
-  <p>What truly pushed me forward was building a custom game for my brother. That project shifted my mindset coding wasn’t just fun, it was powerful. Since then, I’ve expanded into game development, web development, and IT fundamentals.</p>
-
-  <p>I consider myself an intermediate programmer with a strong foundation and a mindset focused on continuous growth. Every project I build teaches me something new — including this website.</p>
-
-  <p>I’m constantly experimenting, learning, and pushing myself to create better systems, cleaner designs, and more meaningful projects.</p>
+  <p>Hi, I’m Vinzo a Computer Science sophomore passionate about technology, programming, and building digital experiences.</p>
+  <p>From modding games to developing my own, platforms like Roblox and Unity sparked my love for problem-solving.</p>
+  <p>Building a custom game for my brother changed everything — coding became powerful, not just fun.</p>
+  <p>I’m constantly learning, experimenting, and building better systems and cleaner designs.</p>
 
   <blockquote>
     “Curiosity is one of the great secrets of happiness.” — Vinzo<br>
     <span style="font-size:0.8rem; opacity:0.7;">March 18, 2025</span>
   </blockquote>
 </section>
+
+<!-- Waves -->
+<div class="wave-container">
+<svg class="wave" viewBox="0 0 1440 320">
+<path fill="#065f46" fill-opacity="1"
+d="M0,160L48,154.7C96,149,192,139,288,160C384,181,480,235,576,245.3C672,256,768,224,864,197.3C960,171,1056,149,1152,144C1248,139,1344,149,1392,154.7L1440,160V320H0Z"></path>
+</svg>
+
+<svg class="wave" viewBox="0 0 1440 320">
+<path fill="#064e3b" fill-opacity="1"
+d="M0,192L60,186.7C120,181,240,171,360,160C480,149,600,139,720,154.7C840,171,960,213,1080,224C1200,235,1320,213,1380,202.7L1440,192V320H0Z"></path>
+</svg>
+</div>
 
 <footer>
   <p>Contact: <a href="mailto:vinzo@bochardi.com">vinzo@bochardi.com</a></p>
