@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RevMeet — New England Car Meets</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #141210;
+    --bg2:       #1a1714;
+    --bg3:       #201d19;
+    --surface:   #242019;
+    --surface2:  #2c271f;
+    --surface3:  #332d24;
+
+    --amber:     #e8a435;
+    --amber-dim: rgba(232,164,53,0.15);
+    --amber-soft:rgba(232,164,53,0.08);
+    --red:       #c0392b;
+    --red-dim:   rgba(192,57,43,0.15);
+    --green:     #4a9068;
+    --green-dim: rgba(74,144,104,0.14);
+    --slate:     #8a9bb0;
+
+    --text:      #e8e0d0;
+    --text-mid:  #a89880;
+    --text-dim:  #6a5e50;
+    --border:    rgba(232,164,53,0.1);
+    --border-mid:rgba(232,164,53,0.18);
+    --border-hi: rgba(232,164,53,0.32);
+
+    --shadow:    0 2px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 6px 32px rgba(0,0,0,0.5);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Subtle warm vignette */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(232,164,53,0.04) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(20,18,16,0.96);
+    border-bottom: 1px solid var(--border-mid);
+    padding: 0 40px; height: 62px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 20px rgba(0,0,0,0.5);
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--text);
+    display: flex; align-items: center; gap: 9px;
+  }
+
+  .logo-mark {
+    width: 29px; height: 29px;
+    background: var(--amber); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; font-size: 13px;
+    color: var(--bg); font-weight: 700; flex-shrink: 0;
+  }
+
+  .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--text-mid);
+    text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all 0.18s;
+  }
+
+  .nav-links a:hover { background: var(--surface2); color: var(--text); }
+  .nav-links a.active { background: var(--surface2); color: var(--amber); font-weight: 600; }
+
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+
+  .btn-ghost {
+    font-size: 13px; font-weight: 500; padding: 7px 18px;
+    background: transparent; border: 1px solid var(--border-mid);
+    color: var(--text-mid); border-radius: 8px; cursor: pointer; transition: all 0.18s;
+  }
+  .btn-ghost:hover { background: var(--surface2); border-color: var(--border-hi); color: var(--text); }
+
+  .btn-primary {
+    font-size: 13px; font-weight: 600; padding: 7px 20px;
+    background: var(--amber); border: 1px solid var(--amber);
+    color: var(--bg); border-radius: 8px; cursor: pointer; transition: all 0.18s;
+  }
+  .btn-primary:hover { background: #d4952e; box-shadow: 0 2px 16px rgba(232,164,53,0.3); }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 8px 0; overflow: hidden; display: flex; align-items: center;
+  }
+
+  .ticker-label {
+    font-family: 'Courier Prime', monospace; font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--bg); background: var(--amber);
+    padding: 3px 14px; white-space: nowrap; flex-shrink: 0; margin-right: 20px;
+  }
+
+  .ticker-track { display: flex; animation: ticker 38s linear infinite; white-space: nowrap; }
+
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .ticker-item {
+    font-family: 'Courier Prime', monospace; font-size: 11px;
+    color: var(--text-dim); padding: 0 28px; display: flex; align-items: center; gap: 10px;
+  }
+  .ticker-item em { font-style: normal; color: var(--text-mid); }
+  .ticker-item::after { content: '·'; color: var(--text-dim); opacity: 0.4; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 44px 40px 36px; overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute; right: 0; top: 0; width: 500px; height: 220px;
+    background: radial-gradient(ellipse at right top, rgba(232,164,53,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Courier Prime', monospace; font-size: 11px; letter-spacing: 2.5px;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif; font-size: 44px;
+    line-height: 1.08; color: var(--text); margin-bottom: 8px; font-weight: 400;
+  }
+  .hero h1 em { font-style: italic; color: var(--amber); }
+
+  .hero-sub {
+    font-size: 15px; color: var(--text-mid); font-weight: 300;
+    margin-bottom: 28px; max-width: 480px; line-height: 1.5;
+  }
+
+  /* ── FILTERS ── */
+  .filter-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+  .filter-input {
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: var(--surface); border: 1px solid var(--border-mid);
+    color: var(--text); padding: 9px 14px; border-radius: 8px; outline: none;
+    min-width: 200px; transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .filter-input::placeholder { color: var(--text-dim); }
+  .filter-input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(232,164,53,0.1); }
+
+  .filter-select {
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: var(--surface); border: 1px solid var(--border-mid);
+    color: var(--text-mid); padding: 9px 14px; border-radius: 8px; outline: none; cursor: pointer;
+    transition: border-color 0.18s;
+  }
+  .filter-select option { background: var(--surface2); }
+  .filter-select:focus { border-color: var(--amber); }
+
+  .view-toggle {
+    display: flex; background: var(--surface); border: 1px solid var(--border-mid);
+    border-radius: 8px; overflow: hidden; padding: 3px; gap: 2px;
+  }
+  .view-toggle button {
+    font-size: 12px; font-weight: 500; padding: 6px 14px; background: transparent;
+    border: none; color: var(--text-dim); cursor: pointer; border-radius: 5px; transition: all 0.18s;
+  }
+  .view-toggle button.active { background: var(--surface3); color: var(--amber); font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .main {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 300px;
+    min-height: calc(100vh - 200px);
+  }
+
+  .meets-panel { padding: 28px 36px; border-right: 1px solid var(--border); }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); font-weight: 400; }
+
+  .count-pill {
+    font-family: 'Courier Prime', monospace; font-size: 11px; letter-spacing: 0.5px;
+    color: var(--text-dim); background: var(--surface); border: 1px solid var(--border);
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  .tab-bar { display: flex; gap: 2px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+
+  .tab {
+    font-size: 12px; font-weight: 500; padding: 8px 16px; background: transparent; border: none;
+    color: var(--text-dim); cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; border-radius: 4px 4px 0 0; transition: all 0.18s;
+  }
+  .tab:hover:not(.active) { color: var(--text-mid); background: var(--surface); }
+  .tab.active { color: var(--amber); border-bottom-color: var(--amber); font-weight: 600; }
+
+  /* ── MEET CARDS ── */
+  .meets-grid { display: flex; flex-direction: column; gap: 10px; }
+
+  .meet-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start;
+    cursor: pointer; transition: all 0.22s; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .meet-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--surface3); border-radius: 12px 0 0 12px; transition: background 0.22s;
+  }
+
+  .meet-card:hover { border-color: var(--border-hi); box-shadow: var(--shadow-lg); transform: translateY(-1px); background: var(--surface2); }
+  .meet-card:hover::before { background: var(--amber); }
+  .meet-card.hot::before { background: var(--red); }
+  .meet-card.hot:hover::before { background: var(--red); }
+  .meet-card.lfg-card::before { background: var(--green); }
+  .meet-card.lfg-card:hover::before { background: var(--green); }
+  .meet-card.featured { border-color: rgba(232,164,53,0.22); background: #1e1b13; }
+  .meet-card.featured::before { background: var(--amber); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .meet-card:nth-child(1) { animation-delay: 0.04s; }
+  .meet-card:nth-child(2) { animation-delay: 0.09s; }
+  .meet-card:nth-child(3) { animation-delay: 0.14s; }
+  .meet-card:nth-child(4) { animation-delay: 0.19s; }
+  .meet-card:nth-child(5) { animation-delay: 0.24s; }
+
+  .meet-main { grid-column: 1; }
+  .meet-right { grid-column: 2; text-align: right; }
+
+  .meet-badges { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; flex-wrap: wrap; }
+
+  .badge {
+    font-family: 'Courier Prime', monospace; font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+  }
+
+  .badge-hot   { background: var(--red-dim);   color: #e05a4a; }
+  .badge-new   { background: var(--green-dim);  color: #6ab887; }
+  .badge-lfg   { background: var(--amber-dim);  color: var(--amber); }
+  .badge-open  { background: rgba(138,155,176,0.12); color: var(--slate); }
+
+  .state-tag {
+    font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 1px;
+    color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 4px;
+  }
+
+  .meet-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); margin-bottom: 3px; font-weight: 400; }
+  .meet-host  { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; }
+  .meet-host span { color: var(--amber); font-weight: 500; }
+
+  .meet-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .meet-meta-item { font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 4px; }
+
+  .meet-date-box {
+    text-align: center; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px; min-width: 58px;
+  }
+
+  .date-month {
+    font-family: 'Courier Prime', monospace; font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: var(--amber); text-transform: uppercase; display: block; margin-bottom: 1px;
+  }
+  .date-day  { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); line-height: 1; display: block; }
+  .date-time { font-size: 10px; color: var(--text-dim); display: block; margin-top: 2px; font-family: 'Courier Prime', monospace; }
+
+  .attend-badge {
+    display: flex; align-items: center; justify-content: flex-end; gap: 4px;
+    font-size: 12px; color: var(--green); font-weight: 600; font-family: 'DM Sans', sans-serif;
+    background: var(--green-dim); padding: 4px 10px; border-radius: 20px; margin-top: 8px;
+  }
+
+  /* ── MAP VIEW ── */
+  .map-view {
+    display: none; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    height: 480px; overflow: hidden; position: relative; box-shadow: var(--shadow);
+  }
+
+  .map-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 55% 65%, rgba(192,57,43,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 35% 30%, rgba(74,144,104,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .map-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(232,164,53,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,164,53,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .map-header-label {
+    position: absolute; top: 16px; left: 20px;
+    font-family: 'Courier Prime', monospace; font-size: 10px;
+    letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase;
+  }
+
+  .map-pin { position: absolute; transform: translate(-50%, -50%); cursor: pointer; }
+
+  .pin-dot {
+    width: 13px; height: 13px; border-radius: 50%; border: 2px solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pin-dot:hover { transform: scale(1.35); }
+  .pin-dot.amber { background: rgba(232,164,53,0.2); border-color: var(--amber); }
+  .pin-dot.red   { background: rgba(192,57,43,0.2);  border-color: #c0392b; }
+  .pin-dot.green { background: rgba(74,144,104,0.2); border-color: var(--green); }
+
+  .pin-lbl {
+    position: absolute; top: 17px; left: 50%; transform: translateX(-50%);
+    white-space: nowrap; font-size: 10px; font-weight: 500; color: var(--text-mid);
+    background: rgba(26,23,20,0.9); padding: 2px 7px;
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+
+  .map-legend { position: absolute; bottom: 16px; left: 20px; display: flex; gap: 16px; }
+  .leg-item   { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); }
+  .leg-dot    { width: 8px; height: 8px; border-radius: 50%; border: 2px solid; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { padding: 24px 20px; display: flex; flex-direction: column; gap: 18px; background: var(--bg2); border-left: 1px solid var(--border); }
+
+  .s-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px; box-shadow: var(--shadow);
+  }
+
+  .s-card-title {
+    font-family: 'Courier Prime', monospace; font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px;
+  }
+
+  .profile-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+  .avatar {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #5a4530, #3a2d1e);
+    border: 1px solid var(--border-hi); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; font-size: 15px;
+    color: var(--amber); flex-shrink: 0;
+  }
+
+  .p-name   { font-family: 'DM Serif Display', serif; font-size: 15px; color: var(--text); }
+  .p-handle { font-size: 11px; color: var(--text-dim); font-family: 'Courier Prime', monospace; }
+
+  .social-links { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .social-link {
+    font-size: 11px; font-weight: 500; color: var(--text-mid);
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 6px; text-decoration: none; transition: all 0.18s;
+  }
+  .social-link:hover { background: var(--surface3); border-color: var(--border-hi); color: var(--amber); }
+
+  /* LFG sidebar */
+  .lfg-s {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 12px; padding: 18px; box-shadow: var(--shadow);
+  }
+
+  .lfg-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .lfg-head-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); }
+
+  .live-pill {
+    font-family: 'Courier Prime', monospace; font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--green);
+    background: var(--green-dim); padding: 3px 8px; border-radius: 20px;
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .live-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: blink 1.8s infinite; }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .lfg-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4; }
+
+  .lfg-row {
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .lfg-row:last-of-type { border-bottom: none; }
+
+  .lfg-pulse { width: 7px; height: 7px; background: var(--green); border-radius: 50%; flex-shrink: 0; animation: blink 2s infinite; }
+
+  .lfg-loc  { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .lfg-meta { font-family: 'Courier Prime', monospace; font-size: 10px; color: var(--text-dim); }
+
+  .btn-join {
+    font-size: 11px; font-weight: 600; padding: 5px 12px; white-space: nowrap;
+    background: var(--green-dim); border: 1px solid rgba(74,144,104,0.3);
+    color: var(--green); border-radius: 6px; cursor: pointer; margin-left: auto;
+    flex-shrink: 0; transition: all 0.18s;
+  }
+  .btn-join:hover { background: rgba(74,144,104,0.22); border-color: var(--green); }
+
+  .btn-post-lfg {
+    width: 100%; margin-top: 12px; font-size: 12px; font-weight: 600; padding: 10px;
+    background: transparent; border: 1.5px dashed rgba(74,144,104,0.3);
+    color: var(--green); border-radius: 8px; cursor: pointer; transition: all 0.18s;
+  }
+  .btn-post-lfg:hover { background: var(--green-dim); border-style: solid; }
+
+  /* Stats */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .stat-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; text-align: center;
+  }
+
+  .sv { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); line-height: 1; margin-bottom: 3px; }
+  .sv.amber { color: var(--amber); }
+  .sv.green { color: var(--green); }
+  .sl { font-family: 'Courier Prime', monospace; font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase; }
+
+  /* Email */
+  .email-card {
+    background: #1c1710; border: 1px solid rgba(232,164,53,0.18);
+    border-radius: 12px; padding: 18px;
+  }
+
+  .e-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+  .e-sub   { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.5; }
+
+  .e-row { display: flex; gap: 6px; }
+
+  .e-row input {
+    flex: 1; font-family: 'DM Sans', sans-serif; font-size: 12px;
+    background: var(--surface); border: 1px solid var(--border-mid);
+    color: var(--text); padding: 8px 12px; border-radius: 7px; outline: none; min-width: 0;
+  }
+  .e-row input::placeholder { color: var(--text-dim); }
+  .e-row input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(232,164,53,0.08); }
+
+  .btn-sub {
+    font-size: 12px; font-weight: 600; padding: 8px 14px;
+    background: var(--amber); border: 1px solid var(--amber);
+    color: var(--bg); border-radius: 7px; cursor: pointer; white-space: nowrap; transition: all 0.18s;
+  }
+  .btn-sub:hover { background: #d4952e; box-shadow: 0 2px 12px rgba(232,164,53,0.25); }
+
+  /* Status bar */
+  .status-bar {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 40px; background: var(--bg2); border-top: 1px solid var(--border);
+  }
+
+  .si {
+    font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 1px;
+    color: var(--text-dim); display: flex; align-items: center; gap: 6px;
+  }
+
+  .online-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: blink 2.5s infinite; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-mark">R</div>
+    Bochardi Meet Finder
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Meets</a></li>
+    <li><a href="#">Map</a></li>
+    <li><a href="#">LFG</a></li>
+    <li><a href="#">Hosts</a></li>
+    <li><a href="#">My Garage</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-ghost">Sign In</button>
+    <button class="btn-primary">Host a Meet</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">Upcoming</div>
+  <div class="ticker-track">
+    <span class="ticker-item">Northeast Classic Cruise — <em>Providence, RI</em> — Mar 8</span>
+    <span class="ticker-item">JDM Saturday Night — <em>Boston, MA</em> — Mar 9</span>
+    <span class="ticker-item">Track Day Prep Meet — <em>Lime Rock, CT</em> — Mar 15</span>
+    <span class="ticker-item">All Makes Spring Opener — <em>Manchester, NH</em> — Mar 22</span>
+    <span class="ticker-item">Import Alliance — <em>Portland, ME</em> — Apr 5</span>
+    <span class="ticker-item">Muscle Car Monday — <em>Worcester, MA</em> — Apr 7</span>
+    <span class="ticker-item">Northeast Classic Cruise — <em>Providence, RI</em> — Mar 8</span>
+    <span class="ticker-item">JDM Saturday Night — <em>Boston, MA</em> — Mar 9</span>
+    <span class="ticker-item">Track Day Prep Meet — <em>Lime Rock, CT</em> — Mar 15</span>
+    <span class="ticker-item">All Makes Spring Opener — <em>Manchester, NH</em> — Mar 22</span>
+    <span class="ticker-item">Import Alliance — <em>Portland, ME</em> — Apr 5</span>
+    <span class="ticker-item">Muscle Car Monday — <em>Worcester, MA</em> — Apr 7</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">New England Car Culture</div>
+  <h1>Find your <em>next meet.</em></h1>
+  <div class="hero-sub">Discover and attend car meets across all six New England states. Browse by location, date, or style.</div>
+  <div class="filter-bar">
+    <input class="filter-input" type="text" placeholder="Search meets…">
+    <select class="filter-select">
+      <option>All States</option>
+      <option>Massachusetts</option>
+      <option>Connecticut</option>
+      <option>Rhode Island</option>
+      <option>New Hampshire</option>
+      <option>Vermont</option>
+      <option>Maine</option>
+    </select>
+    <select class="filter-select">
+      <option>All Dates</option>
+      <option>This Weekend</option>
+      <option>This Month</option>
+      <option>Next Month</option>
+    </select>
+    <select class="filter-select">
+      <option>All Types</option>
+      <option>JDM</option>
+      <option>Muscle</option>
+      <option>Import</option>
+      <option>Classic</option>
+    </select>
+    <div class="view-toggle">
+      <button class="active" id="listBtn" onclick="switchView('list')">List</button>
+      <button id="mapBtn" onclick="switchView('map')">Map</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="meets-panel">
+    <div class="section-header">
+      <div class="section-title">Upcoming Meets</div>
+      <span class="count-pill">24 meets</span>
+    </div>
+    <div class="tab-bar">
+      <button class="tab active">All</button>
+      <button class="tab">Massachusetts</button>
+      <button class="tab">Connecticut</button>
+      <button class="tab">Rhode Island</button>
+      <button class="tab">More ↓</button>
+    </div>
+
+    <!-- LIST -->
+    <div id="listView" class="meets-grid">
+
+      <div class="meet-card featured hot">
+        <div class="meet-main">
+          <div class="meet-badges">
+            <span class="badge badge-hot">Trending</span>
+            <span class="state-tag">Providence, RI</span>
+          </div>
+          <div class="meet-title">Northeast Classic Cruise</div>
+          <div class="meet-host">Hosted by <span>@iron_mike_rides</span></div>
+          <div class="meet-meta">
+            <div class="meet-meta-item">📍 Roger Williams Park</div>
+            <div class="meet-meta-item">6:00 PM</div>
+          </div>
+        </div>
+        <div class="meet-right">
+          <div class="meet-date-box">
+            <span class="date-month">Mar</span>
+            <span class="date-day">8</span>
+            <span class="date-time">SAT</span>
+          </div>
+          <div class="attend-badge">✓ 142 going</div>
+        </div>
+      </div>
+
+      <div class="meet-card">
+        <div class="meet-main">
+          <div class="meet-badges">
+            <span class="badge badge-new">New</span>
+            <span class="state-tag">Boston, MA</span>
+          </div>
+          <div class="meet-title">JDM Saturday Night</div>
+          <div class="meet-host">Hosted by <span>@bostonJDM_official</span></div>
+          <div class="meet-meta">
+            <div class="meet-meta-item">📍 South Bay Mall, Lot C</div>
+            <div class="meet-meta-item">7:00 PM</div>
+          </div>
+        </div>
+        <div class="meet-right">
+          <div class="meet-date-box">
+            <span class="date-month">Mar</span>
+            <span class="date-day">9</span>
+            <span class="date-time">SUN</span>
+          </div>
+          <div class="attend-badge">✓ 89 going</div>
+        </div>
+      </div>
+
+      <div class="meet-card">
+        <div class="meet-main">
+          <div class="meet-badges">
+            <span class="badge badge-open">Open</span>
+            <span class="state-tag">Lime Rock, CT</span>
+          </div>
+          <div class="meet-title">Track Day Prep Meetup</div>
+          <div class="meet-host">Hosted by <span>@trackready_ct</span></div>
+          <div class="meet-meta">
+            <div class="meet-meta-item">📍 Lime Rock Park Lot</div>
+            <div class="meet-meta-item">9:00 AM</div>
+          </div>
+        </div>
+        <div class="meet-right">
+          <div class="meet-date-box">
+            <span class="date-month">Mar</span>
+            <span class="date-day">15</span>
+            <span class="date-time">SAT</span>
+          </div>
+          <div class="attend-badge">✓ 47 going</div>
+        </div>
+      </div>
+
+      <div class="meet-card lfg-card">
+        <div class="meet-main">
+          <div class="meet-badges">
+            <span class="badge badge-lfg">⚡ LFG Drive</span>
+            <span class="state-tag">Newton, MA</span>
+          </div>
+          <div class="meet-title">Highway 128 Night Cruise</div>
+          <div class="meet-host">By <span>@nightowl_newton</span></div>
+          <div class="meet-meta">
+            <div class="meet-meta-item">📍 Rt. 128 / I-95 Junction</div>
+            <div class="meet-meta-item">Tonight, 8:30 PM</div>
+          </div>
+        </div>
+        <div class="meet-right">
+          <div class="meet-date-box" style="background:rgba(74,144,104,0.08);border-color:rgba(74,144,104,0.25)">
+            <span class="date-month" style="color:var(--green)">Today</span>
+            <span class="date-day" style="font-size:14px;padding-top:4px">Now</span>
+            <span class="date-time">8:30 PM</span>
+          </div>
+          <div class="attend-badge">✓ 12 going</div>
+        </div>
+      </div>
+
+      <div class="meet-card">
+        <div class="meet-main">
+          <div class="meet-badges">
+            <span class="badge badge-open">Open</span>
+            <span class="state-tag">Manchester, NH</span>
+          </div>
+          <div class="meet-title">All Makes Spring Opener</div>
+          <div class="meet-host">Hosted by <span>@nhcarscene</span></div>
+          <div class="meet-meta">
+            <div class="meet-meta-item">📍 Anheuser-Busch Lot</div>
+            <div class="meet-meta-item">11:00 AM</div>
+          </div>
+        </div>
+        <div class="meet-right">
+          <div class="meet-date-box">
+            <span class="date-month">Mar</span>
+            <span class="date-day">22</span>
+            <span class="date-time">SAT</span>
+          </div>
+          <div class="attend-badge">✓ 203 going</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAP -->
+    <div id="mapView" class="map-view">
+      <div class="map-glow"></div>
+      <div class="map-grid-lines"></div>
+      <div class="map-header-label">New England · RevMeet Network</div>
+      <div class="map-pin" style="left:55%;top:65%"><div class="pin-dot red"></div><div class="pin-lbl">Boston, MA</div></div>
+      <div class="map-pin" style="left:48%;top:78%"><div class="pin-dot red"></div><div class="pin-lbl">Providence, RI</div></div>
+      <div class="map-pin" style="left:42%;top:86%"><div class="pin-dot amber"></div><div class="pin-lbl">Lime Rock, CT</div></div>
+      <div class="map-pin" style="left:52%;top:48%"><div class="pin-dot green"></div><div class="pin-lbl">Manchester, NH</div></div>
+      <div class="map-pin" style="left:64%;top:28%"><div class="pin-dot red"></div><div class="pin-lbl">Portland, ME</div></div>
+      <div class="map-pin" style="left:34%;top:34%"><div class="pin-dot amber"></div><div class="pin-lbl">Burlington, VT</div></div>
+      <div class="map-legend">
+        <div class="leg-item"><div class="leg-dot" style="border-color:#c0392b;background:rgba(192,57,43,0.2)"></div>Formal Meet</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--green);background:rgba(74,144,104,0.2)"></div>LFG Drive</div>
+        <div class="leg-item"><div class="leg-dot" style="border-color:var(--amber);background:rgba(232,164,53,0.2)"></div>Track Event</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="s-card">
+      <div class="s-card-title">Your Profile</div>
+      <div class="profile-row">
+        <div class="avatar">R</div>
+        <div>
+          <div class="p-name">Ryan T.</div>
+          <div class="p-handle">@ryantx · Ludlow, MA</div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link">TikTok</a>
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">X</a>
+        <a href="#" class="social-link">My Garage →</a>
+      </div>
+    </div>
+
+    <div class="lfg-s">
+      <div class="lfg-head">
+        <div class="lfg-head-title">LFG Drives</div>
+        <div class="live-pill"><div class="live-dot"></div>Live</div>
+      </div>
+      <div class="lfg-sub">Last-minute group drives. No formal meet, just show up.</div>
+      <div class="lfg-row">
+        <div class="lfg-pulse"></div>
+        <div style="flex:1">
+          <div class="lfg-loc">Newton → Route 9 Loop</div>
+          <div class="lfg-meta">8:30 PM · 12 people · ~45 min</div>
+        </div>
+        <button class="btn-join">Join</button>
+      </div>
+      <div class="lfg-row">
+        <div class="lfg-pulse" style="animation-delay:0.9s"></div>
+        <div style="flex:1">
+          <div class="lfg-loc">Hartford → I-84 West</div>
+          <div class="lfg-meta">9:00 PM · 6 people · ~30 min</div>
+        </div>
+        <button class="btn-join">Join</button>
+      </div>
+      <button class="btn-post-lfg">+ Post your own LFG</button>
+    </div>
+
+    <div class="s-card">
+      <div class="s-card-title">Network</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="sv">24</div><div class="sl">Active Meets</div></div>
+        <div class="stat-box"><div class="sv amber">1,847</div><div class="sl">Attending</div></div>
+        <div class="stat-box"><div class="sv green">3</div><div class="sl">LFG Live</div></div>
+        <div class="stat-box"><div class="sv">11</div><div class="sl">Hosts Online</div></div>
+      </div>
+    </div>
+
+    <div class="email-card">
+      <div class="e-title">Get notified</div>
+      <div class="e-sub">Stay in the loop on meets near you. Pick your states, we'll handle the rest.</div>
+      <div class="e-row">
+        <input type="email" placeholder="your@email.com">
+        <button class="btn-sub">Subscribe</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="si"><div class="online-dot"></div>RevMeet · New England</div>
+  <div class="si">6 states · 24 active meets</div>
+  <div class="si" id="clock">—</div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toLocaleString('en-US', {
+      weekday:'short', month:'short', day:'numeric',
+      hour:'2-digit', minute:'2-digit', timeZone:'America/New_York', hour12:true
+    }) + ' EST';
+  }
+  updateClock(); setInterval(updateClock, 10000);
+
+  function switchView(v) {
+    const list = document.getElementById('listView');
+    const map  = document.getElementById('mapView');
+    if (v === 'map') {
+      list.style.display = 'none'; map.style.display = 'block';
+      document.getElementById('listBtn').classList.remove('active');
+      document.getElementById('mapBtn').classList.add('active');
+    } else {
+      list.style.display = 'flex'; map.style.display = 'none';
+      document.getElementById('listBtn').classList.add('active');
+      document.getElementById('mapBtn').classList.remove('active');
+    }
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
